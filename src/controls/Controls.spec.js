@@ -12,12 +12,18 @@ describe("<Controls />", () => {
         // snapshots are a JSON representation of the DOM tree
         expect(tree.toJSON()).toMatchSnapshot();
     });
-    // it('cannot be closed or opened when locked', () => {
-    //     const { getByText } = render(<Controls />);
+    it('locking is disabled when open', () => {
+        const { getByText } = render(<Controls closed={false} locked={false}/>);
 
-    //     // fireEvent.click(getByText(/lock gate/i));
-    //     expect(getByText(/Lock Gate/i).closest('button')).toHaveAttribute('disabled');
-    // })
+        const lockButton = getByText(/Lock Gate/i)
+        expect(lockButton).toBeDisabled;
+    })
+    it('opening is disabled when locked', () => {
+        const { getByText } = render(<Controls locked={true} closed={true}/>);
+
+        const openButton = getByText(/Open Gate/i)
+        expect(openButton).toBeDisabled;
+    })
     it('should invoke a function when unlock or lock gate is clicked', () => {
         const toggleLock = jest.fn();
         
